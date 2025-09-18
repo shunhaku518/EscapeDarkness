@@ -12,18 +12,26 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+
+    public static GameState gameState; //ゲームのステータス
+    public static bool[] doorOpenedState; //ドアの開閉状況
+    public static int key1;
+    public static int key2;
+    public static int key3;
+    public static bool[] keyssPickedState; //鍵の取得状況
+
+    public static int bill = 10; //お札の残数
+    public static bool[] itemsPickedState; //アイテムの取得状況
+
     static public bool hasSpotLight; //スポットライトを持っているかどうか
 
+    public static int playerHP = 3; //プレイヤーのHP
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        //まずはゲームは開始状態にする
+        gameState = GameState.playing;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
