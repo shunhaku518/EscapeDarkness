@@ -7,7 +7,10 @@ public class RoomManager : MonoBehaviour
     public static int[] itemsPositionNumber = { 0, 0, 0, 0, 0 }; //アイテムの配置番号
 
     public GameObject[] items = new GameObject[5]; //5つのアイテムプレハブの内訳
+
     public GameObject room; //ドアのプレハブ
+    public MessageData[] messages; //配置したドアに割り振るScript
+
     public GameObject dummyDoor; //ダミーのドアプレハブ
     public GameObject key; //キーのプレハブ
 
@@ -92,5 +95,53 @@ public class RoomManager : MonoBehaviour
 
         }
     }
+
+    void StartDoorsPosition()
+    {
+        //全スポットの取得
+        GameObject[] roomSpots = GameObject.FindGameObjectsWithTag("RoomSpot");
+
+        //出入り口(鍵1～鍵3の3つの出入り口）の分だけ繰り返し
+        for (int i = 0; i < doorsPositionNumber.Length; i++)
+        {
+            int rand; //ランダムな数の受け皿
+            bool unique; //重複していないかのフラグ
+
+            do
+            {
+                unique = true; //問題なければそのままループを抜ける予定
+                rand = Random.Range(1, (roomSpots.Length + 1)); //1番からスポット数の番号をランダムで取得
+
+                //すでにランダムに取得した番号がどこかのスポットとして割り当てられていないか、doorsPositionNumber配列の状況を全点検
+                foreach (int numbers in doorsPositionNumber)
+                {
+                    //取り出した情報とランダム番号が一致していたら重複したいたということになる
+                    if (numbers == rand)
+                    {
+                        unique = false; //唯一のユニークなものではない
+                        break;
+                    }
+                }
+            } while (!unique);
+
+            //全スポットを見回りしてrandと同じのスポットを探す
+            foreach (GameObject spots in roomSpots)
+            {
+                if (spots.GetComponent<RoomSpot>().spotNum == rand)
+                {
+                    //ルームを生成
+                    GameObject obj = Instantiate(
+                        room,
+                        spots.transform.position,
+                        Quaternion.identity
+                        );
+
+                    //何番スポットが選ばれたのかstatic変数に記憶していく
+                    doorsPositionNumber[i] = rand;
+                }
+            }
+        }
+    }
+
 
 }
