@@ -63,7 +63,7 @@ public class DoorController : MonoBehaviour
                 {
                     GameManager.key1--;
                     nextTalk = true;
-                    GameManager.doorOpenedState[0] = true;
+                    GameManager.doorsOpenedState[0] = true;
                 }
                 break;
             case "fromRoom2":
@@ -71,7 +71,7 @@ public class DoorController : MonoBehaviour
                 {
                     GameManager.key2--;
                     nextTalk = true;
-                    GameManager.doorOpenedState[1] = true;
+                    GameManager.doorsOpenedState[1] = true;
                 }
                 break;
             case "fromRoom3":
@@ -79,7 +79,7 @@ public class DoorController : MonoBehaviour
                 {
                     GameManager.key3--;
                     nextTalk = true;
-                    GameManager.doorOpenedState[2] = true;
+                    GameManager.doorsOpenedState[2] = true;
                 }
                 break;
         }
