@@ -37,6 +37,8 @@ public class RoomManager : MonoBehaviour
             LoadKeysPosition(); //キーの配置の再現
             LoadItemsPosition(); //アイテムの配置の再現
             LoadDoorsPosition(); //ドアの配置の再現
+
+            PlayerPosition(); //プレイヤーの配置
         }
     }
 
@@ -378,6 +380,36 @@ public class RoomManager : MonoBehaviour
 
             //数字がマッチしていなければこれまで何も配置されていないということなのでダミードアを設置
             if (!match) Instantiate(dummyDoor, spots.transform.position, Quaternion.identity);
+        }
+    }
+
+    //Playerの配置
+    void PlayerPosition()
+    {
+        //全Roomオブジェクトの取得
+        GameObject[] roomDatas = GameObject.FindGameObjectsWithTag("Room");
+
+        foreach (GameObject room in roomDatas)
+        {
+            //それぞれのRoomのRoomDataスクリプトの情報を変数rに代入
+            RoomData r = room.GetComponent<RoomData>();
+
+            //取得してきたRoomの識別名が「今目標にしている行先」の識別名(static変数)と同じなら
+            if (r.roomName == toRoomNumber)
+            {
+                float posY = 1.5f; //最初は対象となるRoomの上座標
+                if (r.direction == DoorDirection.down)
+                {
+                    posY = -1.5f; //もしdirectionがdown設定のRoomならプレイヤーの位置は下側になる
+                }
+
+                //プレイヤーの位置を決める
+                player.transform.position = new Vector2(
+                    room.transform.position.x,
+                    room.transform.position.y + posY
+                    );
+                break; //目的のRoomが見つかって、チェックの必要性がなくなったのでforeachを中断
+            }
         }
     }
 
